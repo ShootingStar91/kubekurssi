@@ -1,14 +1,32 @@
+const express = require("express");
 const crypto = require("crypto");
 
-const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const app = express()
 
-const randomString = crypto.randomBytes(16).toString("hex");
+const router = new express.Router()
+
+const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+let randomString = crypto.randomBytes(16).toString("hex")
+
+const getStatus = () => `${new Date()} ${randomString}` 
 
 const run = async () => {
   while (true) {
-    console.log(`${new Date()} ${randomString}`);
-    await sleep(5000);
+    await sleep(5000)
+    console.log(getStatus())
   }
-};
+}
 
-run();
+router.get('/', (req, res) => {
+  res.send(getStatus())
+})
+
+app.use(router)
+
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, () => {
+  console.log(`String-app server running on port ${PORT}`)
+  run()
+})
