@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: string-app-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: string-app
+  template:
+    metadata:
+      labels:
+        app: string-app
+    spec:
+      containers:
+        - name: string-app
+          image: string-app
+          imagePullPolicy: Never
