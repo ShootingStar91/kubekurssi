@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
 app.use(router)
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log("Server started.")
     console.log(`Running on port ${PORT}`)
 })

@@ -1,3 +1,5 @@
+# for string and server app, ex. 1.10
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,13 +8,23 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: string-app
+      app: images
   template:
     metadata:
       labels:
-        app: string-app
+        app: images
     spec:
+      volumes:
+        - name: shared-image
+          emptyDir: {}
       containers:
-        - name: string-app
-          image: string-app:0.1
-          imagePullPolicy: Never
+        - name: reader-app
+          image: reader-app:0.7
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/shared
+        - name: generator-app
+          image: generator-app:0.5
+          volumeMounts:
+          - name: shared-image
+            mountPath: /usr/src/app/shared
