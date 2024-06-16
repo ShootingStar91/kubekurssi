@@ -12,10 +12,18 @@ spec:
       labels:
         app: server-app
     spec:
+      volumes:
+      - name: ping-pv
+        persistentVolumeClaim:
+          claimName: ping-volume-claim
       containers:
         - name: server-app
-          image: server-app:0.5
+          image: server-app:0.16
           imagePullPolicy: IfNotPresent
           env:
           - name: PORT
             value: "3000"
+          volumeMounts:
+          - name: ping-pv
+            mountPath: /usr/src/app/shared
+
