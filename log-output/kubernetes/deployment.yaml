@@ -1,25 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pingpong-app-dep
+  name: logoutput-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pingpong-app
+      app: logoutput-app
   template:
     metadata:
       labels:
-        app: pingpong-app
+        app: logoutput-app
     spec:
       volumes:
       - name: ping-pv
         persistentVolumeClaim:
           claimName: ping-volume-claim
       containers:
-        - name: pingpong-app
-          image: pingpong-app:12
-          imagePullPolicy: Never
+        - name: logoutput-app
+          image: log-output-app:16
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: PORT
+            value: "3000"
           volumeMounts:
           - name: ping-pv
             mountPath: /usr/src/app/shared
